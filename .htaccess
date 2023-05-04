@@ -1,9 +1,26 @@
+<!-- Deny from all -->
+
 AddType application/javascript js
+AddType text/javascript js
+AddType application/json json
 AddType application/javascript .mjs
 AddType text/css css
 AddType image/svg+xml svg
 
-<IfModule mod_rewrite.c>
+<!-- <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule ^js/.*\.m?js$ - [T=application/javascript]
+</IfModule> -->
+
+
+<IfModule mod_rewrite.c>
+
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /index.html [L]
+  
 </IfModule>
