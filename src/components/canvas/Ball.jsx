@@ -16,16 +16,16 @@ const Ball = (props) => {
   if (props.isMobile) {
     if (ballCounter === 0) {
       x = 7.5
-      y = 15 - (levelCounter * 5)
+      y = 13 - (levelCounter * 5)
     } else if (ballCounter === 1) {
       x = 2.5
-      y = 15 - (levelCounter * 5)
+      y = 13 - (levelCounter * 5)
     } else if (ballCounter === 2) {
       x = -2.5
-      y = 15 - (levelCounter * 5)
+      y = 13 - (levelCounter * 5)
     } else if (ballCounter === 3) {
       x = -7.5
-      y = 15- (levelCounter * 5)
+      y = 13- (levelCounter * 5)
     }
 
   } else {
