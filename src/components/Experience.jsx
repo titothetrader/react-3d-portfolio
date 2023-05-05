@@ -56,8 +56,9 @@ const ExperienceCard = ({ experience }) => {
   }
   >
     <motion.div 
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      // onHoverStart={() => setIsHovered(true)}
+      // onHoverEnd={() => setIsHovered(false)}
+      onClick={() => setIsHovered(!isHovered)}
     >
       <span className={styles.sectionSubText}>{experience.company}</span>
       <h3 className="text-white text-[24px] font-bold">{experience.title}</h3>
