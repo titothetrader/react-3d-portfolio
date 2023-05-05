@@ -10,7 +10,9 @@ import { useEffect, useState } from "react"
 import { fetchProjectsData } from "../services/fetchDataFromDB"
 
 const ProjectCard = (project) => (
-  <motion.div variants={fadeIn("up", "spring", project.index * 0.5, 0.75)}>
+  <motion.div 
+    variants={fadeIn("up", "spring", project.index * 0.5, 0.75)}
+  >
     <Tilt
       options={{
         max: 45,
@@ -71,8 +73,10 @@ const Projects = () => {
 
   return (
     <>
-    <motion.div variants={textVariant()}>
-      <p className={styles.sectionSubText}>Toys I've made</p>
+    <motion.div 
+      variants={textVariant()}
+    >
+      <p className={styles.sectionSubText}>Some things I've made</p>
       <h2 className={styles.sectionHeadText}>Projects.</h2>
     </motion.div>
 

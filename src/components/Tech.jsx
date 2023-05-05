@@ -8,6 +8,21 @@ import { fetchTechnologiesData } from "../services/fetchDataFromDB"
 const Tech = () => {
   const [isMobile, setIsMobile] = useState(false)
 
+    const [profileData, setProfileData] = useState({
+    technologies: []
+  })
+
+  useEffect(() => {
+    fetchTechnologiesData()
+      .then(response => 
+        setProfileData({
+          technologies: JSON.parse(response.technologies)
+        })
+      )
+      .catch(err => console.log(err))    
+    // console.log(JSON.parse(results.rows[0].experiences))
+  }, [])
+
   useEffect(() => {
     // add listener for changes to screen size
     const mediaQuery = window.matchMedia('(max-width: 760px)')
@@ -31,11 +46,9 @@ const Tech = () => {
 
   return (
     <div className="flex flex-row flex-wrap justify-center gap-10">
-      {/* {technologies.map((technology, index) => ( */}
         <div className="flex justify-between w-full h-[500px]" >
           <BallCanvas technologies={technologies} isMobile={isMobile} />
         </div>
-      {/* ))} */}
     </div>
   )
 }
@@ -43,17 +56,3 @@ const Tech = () => {
 export default SectionWrapper(Tech, "tech")
 
 
-  // const [profileData, setProfileData] = useState({
-  //   technologies: []
-  // })
-
-  // useEffect(() => {
-  //   fetchTechnologiesData()
-  //     .then(response => 
-  //       setProfileData({
-  //         technologies: JSON.parse(response.technologies)
-  //       })
-  //     )
-  //     .catch(err => console.log(err))    
-  //   // console.log(JSON.parse(results.rows[0].experiences))
-  // }, [])
