@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { styles } from '../styles'
 import { ModelCanvas } from './canvas'
 
-const Hero = () => {
+const Hero = (props) => {
 
   return (
     <section className='relative w-full h-screen mx-auto'>
@@ -40,9 +40,10 @@ const Hero = () => {
             </span>
           </div>
       </div>
-      <ModelCanvas />
 
-      <div className='absolute flex items-center justify-center w-full xs:bottom-10 bottom-32'>
+      <ModelCanvas isMobile={props.isMobile} />
+      
+      <div className='absolute flex items-center justify-center w-full xs:bottom-24 bottom-36'>
         <a href="#about">
           <div className='w-[35px] h-[64px] rounded-3xl border-4 border-secondary flex justify-center items-start p-2'>
             <motion.div

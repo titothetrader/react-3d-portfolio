@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Decal, Float, OrbitControls, Preload, useTexture } from '@react-three/drei'
 
@@ -7,13 +7,13 @@ import CanvasLoader from '../Loader'
 let ballCounter = 0
 let levelCounter = 0
 
-const Ball = (props) => {
-  const [decal] = useTexture([props.imgUrl])
+const Ball = ({ isMobile, index, imgUrl }) => {
+  const [decal] = useTexture([imgUrl])
   let x = 0
   let y = 0
   let z = 0
 
-  if (props.isMobile) {
+  if (isMobile) {
     if (ballCounter === 0) {
       x = 7.5
       y = 13 - (levelCounter * 5)
@@ -29,11 +29,11 @@ const Ball = (props) => {
     }
 
   } else {
-    if (props.index <= 6) {
-      x = -30 + (props.index * 10)
+    if (index <= 6) {
+      x = -30 + (index * 10)
       y = 5
     } else {
-      x = -30 + ((props.index - 7) * 10)
+      x = -30 + ((index - 7) * 10)
       y = -5
     }
   }
@@ -49,7 +49,7 @@ const Ball = (props) => {
     <Float >
       <ambientLight intensity={0.15}/>
       <directionalLight position={[0, 0, -0.5]}/>
-      <mesh castShadow receiveShadow scale={props.isMobile ? 2 : 2.75} position={[x, y, z]}>
+      <mesh castShadow receiveShadow scale={isMobile ? 2 : 2.75} position={[x, y, z]}>
         <icosahedronGeometry args={[1, 1]}/>
         <meshStandardMaterial 
           color="#fff8eb"
@@ -68,7 +68,30 @@ const Ball = (props) => {
   )
 }
 
-const BallCanvas = ( { technologies, isMobile }) => {
+const BallCanvas = ( { technologies }) => {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+      // add listener for changes to screen size
+      const mediaQuery = window.matchMedia('(max-width: 760px)')
+
+      // set initial value
+      setIsMobile(mediaQuery.matches)
+
+      // define callback for media query
+      const handleMediaQueryChange = (event) => {
+      setIsMobile(event.matches)
+      }
+
+      // add calback as a listener to execute when changes detected
+      mediaQuery.addEventListener('change', handleMediaQueryChange)
+
+      // remove the listener when the component is unmounted
+      return () => {
+      mediaQuery.removeEventListener('change', handleMediaQueryChange)
+      }
+  })
+
   return (
     <Canvas
       frameloop='demand' 

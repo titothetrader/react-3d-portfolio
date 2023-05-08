@@ -29,40 +29,20 @@ const Model = (props) => {
       />
       <primitive 
         object={model.scene}
-        scale={props.isMobile ? 0.3 : 0.55}
-        position={[0, -2.5, 0]}
-        rotation={[-0.01, -0.2, -0.1]}
+        scale={props.isMobile ? 1 : 1.3}
+        position={[0, 0, 0]}
+        rotation={[-0.01, -0.9, -0.1]}
       />
     </mesh>
   )
 }
 
-const ModelCanvas = () => {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    // add listener for changes to screen size
-    const mediaQuery = window.matchMedia('(max-width: 760px)')
-
-    // set initial value
-    setIsMobile(mediaQuery.matches)
-
-    // define callback for media query
-    const handleMediaQueryChange = (event) => {
-      setIsMobile(event.matches)
-    }
-
-    // add calback as a listener to execute when changes detected
-    mediaQuery.addEventListener('change', handleMediaQueryChange)
-
-    // remove the listener when the component is unmounted
-    return () => {
-      mediaQuery.removeEventListener('change', handleMediaQueryChange)
-    }
-  }, [])
-
+const ModelCanvas = (props) => {
+  let size = props.isMobile ? '200px' : '350px'
   return (
     <Canvas
+      style={{display: 'block', width: size, height: size}}
+      className='mx-auto md:top-[50vh] top-[55vh]'
       frameloop='demand' 
       shadows
       camera={{ position: [30, 3, 5], fov: 25 }}
@@ -75,7 +55,7 @@ const ModelCanvas = () => {
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
         />
-        <Model isMobile={isMobile}/>
+        <Model isMobile={props.isMobile}/>
       </Suspense>
       <Preload all />
     </Canvas>

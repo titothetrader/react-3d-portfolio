@@ -30,7 +30,7 @@ function NewlineText(props) {
   )
 }
 
-const ExperienceCard = ({ experience }) => {
+const ExperienceCard = ({ experience, isMobile }) => {
   const startDate = new Date(experience.starts_at.year, experience.starts_at.month -1, experience.starts_at.day)
   const startMonth = startDate.toLocaleString('default', { month: 'short' })
 
@@ -68,7 +68,7 @@ const ExperienceCard = ({ experience }) => {
   )
 }
 
-const Experience = () => {
+const Experience = (props) => {
   const [profileData, setProfileData] = useState({
     experiences: [],
   })
@@ -92,9 +92,9 @@ const Experience = () => {
     </motion.div> 
 
     <div className="flex flex-col mt-20">
-      <VerticalTimeline>
+      <VerticalTimeline animate={props.isMobile ? false : true}>
         {profileData?.experiences.map((experience, index) => (
-          <ExperienceCard key={index} experience={experience} />
+          <ExperienceCard key={index} experience={experience} isMobile={props.isMobile}/>
         ))}
       </VerticalTimeline>
     </div>
