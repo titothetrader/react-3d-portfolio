@@ -30,7 +30,7 @@ function NewlineText(props) {
   )
 }
 
-const ExperienceCard = ({ experience, isMobile }) => {
+const ExperienceCard = ({ experience }) => {
   const startDate = new Date(experience.starts_at.year, experience.starts_at.month -1, experience.starts_at.day)
   const startMonth = startDate.toLocaleString('default', { month: 'short' })
 
@@ -68,7 +68,7 @@ const ExperienceCard = ({ experience, isMobile }) => {
   )
 }
 
-const Experience = (props) => {
+const Experience = () => {
   const [profileData, setProfileData] = useState({
     experiences: [],
   })
@@ -84,6 +84,29 @@ const Experience = (props) => {
     // console.log(JSON.parse(results.rows[0].experiences))
   }, [])
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+      // add listener for changes to screen size
+      const mediaQuery = window.matchMedia('(max-width: 760px)')
+
+      // set initial value
+      setIsMobile(mediaQuery.matches)
+
+      // define callback for media query
+      const handleMediaQueryChange = (event) => {
+      setIsMobile(event.matches)
+      }
+
+      // add calback as a listener to execute when changes detected
+      mediaQuery.addEventListener('change', handleMediaQueryChange)
+
+      // remove the listener when the component is unmounted
+      return () => {
+      mediaQuery.removeEventListener('change', handleMediaQueryChange)
+      }
+  })
+
   return (
     <>
     <motion.div variants={textVariant()}>
@@ -92,9 +115,9 @@ const Experience = (props) => {
     </motion.div> 
 
     <div className="flex flex-col mt-20">
-      <VerticalTimeline animate={props.isMobile ? false : true}>
+      <VerticalTimeline animate={!isMobile}>
         {profileData?.experiences.map((experience, index) => (
-          <ExperienceCard key={index} experience={experience} isMobile={props.isMobile}/>
+          <ExperienceCard key={index} experience={experience} isMobile={isMobile}/>
         ))}
       </VerticalTimeline>
     </div>
