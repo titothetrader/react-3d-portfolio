@@ -32,7 +32,7 @@ const App = () => {
     <Navbar />
       <div className="relative z-0 bg-primary">
         <div className="bg-center bg-no-repeat bg-cover bg-hero-pattern">
-          <Hero isMobile={isMobile}/>
+          <Hero isMobile={isMobile} />
         </div>
         <About />
         <Tech />
