@@ -7,31 +7,56 @@ import SectionWrapper from '../HigherOrderComponent/SectionWrapper'
 import { fetchTestimonialsData } from "../services/fetchDataFromDB"
 import { useEffect, useState } from "react"
 
-const TestimonialCard = (testimonial) => (
-  <motion.div 
-    variants={fadeIn("", "spring", 0.5 * testimonial.index, 0.75)}
-    className="bg-black-200 p-10 rounded-3xl xs:w-[320px] w-full"
-  >
-    <p className="text-white font-black text-[48px]">"</p>
+const TestimonialCard = (testimonial) => {
+  const [isMobile, setIsMobile] = useState(false)
 
-    <div className="mt-1">
-      <p className="text-white tracking-wider text-[18px]">{testimonial.testimonial}</p>
+  useEffect(() => {
+      // add listener for changes to screen size
+      const mediaQuery = window.matchMedia('(max-width: 760px)')
 
-      <div className="flex items-center justify-between gap-1 mt-7">
-        <div className="flex flex-col flex-1">
-          <p className="text-white font-medium text-[16px]"><span className="blue-text-gradient">@</span> {testimonial.name}</p>
-          <p className="mt-1 text-secondary text-[12px]">{testimonial.designation} of {testimonial.company}</p>
+      // set initial value
+      setIsMobile(mediaQuery.matches)
+
+      // define callback for media query
+      const handleMediaQueryChange = (event) => {
+      setIsMobile(event.matches)
+      }
+
+      // add calback as a listener to execute when changes detected
+      mediaQuery.addEventListener('change', handleMediaQueryChange)
+
+      // remove the listener when the component is unmounted
+      return () => {
+      mediaQuery.removeEventListener('change', handleMediaQueryChange)
+      }
+  })
+  
+  return (
+    <motion.div 
+      variants={!isMobile && fadeIn("", "spring", 0.5 * testimonial.index, 0.75)}
+      className="bg-black-200 p-10 rounded-3xl xs:w-[320px] w-full"
+    >
+      <p className="text-white font-black text-[48px]">"</p>
+
+      <div className="mt-1">
+        <p className="text-white tracking-wider text-[18px]">{testimonial.testimonial}</p>
+
+        <div className="flex items-center justify-between gap-1 mt-7">
+          <div className="flex flex-col flex-1">
+            <p className="text-white font-medium text-[16px]"><span className="blue-text-gradient">@</span> {testimonial.name}</p>
+            <p className="mt-1 text-secondary text-[12px]">{testimonial.designation} of {testimonial.company}</p>
+          </div>
+          <img 
+            src={testimonial.image} 
+            alt={`feedback by ${testimonial.company}`}
+            className="object-contain w-10 h-10 rounded-full"
+            referrerPolicy="no-referrer"
+          />
         </div>
-        <img 
-          src={testimonial.image} 
-          alt={`feedback by ${testimonial.company}`}
-          className="object-contain w-10 h-10 rounded-full"
-          referrerPolicy="no-referrer"
-        />
       </div>
-    </div>
-  </motion.div>
-)
+    </motion.div>
+  )
+}
 
 const Testimonials = () => {
   const [profileData, setProfileData] = useState({
